@@ -104,7 +104,7 @@ class _PortosPageState extends State<PortosPage> {
     );
 
     if (response_.statusCode == 404) {
-      final url = '${dotenv.env['API_URL']}/user/port/startport';
+      final url = 'https://backend-railway-production-0456.up.railway.app/user/port/startport';
       final headers = {'Authorization': 'Bearer $token'};
       final Map<String, dynamic> postData = {'portoId': '${porto.id}'};
       portoPendente = porto.id;

@@ -298,7 +298,7 @@ class _LoginPageState extends State<LoginPage> {
   logar() async {
     SharedPreferences _sharedPreferences =
         await SharedPreferences.getInstance();
-    var url = Uri.parse('${dotenv.env['API_URL']}/login');
+    var url = Uri.parse('https://backend-railway-production-0456.up.railway.app/login');
     var response = await http.post(
       url,
       body: {
