@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
     SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
 
     try {
-      var url = Uri.parse('https://deploy-recode.vercel.app/login');
+      var url = Uri.parse('deploy-recode.vercel.app/login');
       var response = await http.post(
         url,
         headers: {
