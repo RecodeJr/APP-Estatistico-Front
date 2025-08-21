@@ -21,7 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   final _senhaCotroller = TextEditingController();
   bool _verSenha = false;
   String? frase = '';
-  bool _manterConectado = false; // Salvar o email e a senha do usuário
+  bool _manterConectado = false;
   String userEmail = '';
   String userPassword = '';
 
@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.42),
-                  // CAMPO EMAIL
+                  // EMAIL
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.42),
@@ -75,27 +75,18 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.mail_outline),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.grey, width: 2.0),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.green, width: 2.0),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
                         labelText: 'E-mail',
                         hintText: 'nome@email.com',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      validator: (email) {
-                        if (email == null || email.isEmpty) {
-                          return 'Digite seu e-mail';
-                        }
-                        return null;
-                      },
+                      validator: (email) =>
+                          email == null || email.isEmpty ? 'Digite seu e-mail' : null,
                     ),
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.025),
-                  // CAMPO SENHA
+                  // SENHA
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.42),
@@ -107,112 +98,69 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.vpn_key),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.grey,
-                            width: MediaQuery.of(context).size.width * 0.005,
-                          ),
-                          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.03),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.green,
-                            width: MediaQuery.of(context).size.width * 0.005,
-                          ),
-                          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.03),
-                        ),
                         label: const Text('Senha'),
                         hintText: 'Digite sua senha',
                         suffixIcon: IconButton(
-                          icon: Icon(_verSenha ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+                          icon: Icon(_verSenha
+                              ? Icons.visibility_outlined
+                              : Icons.visibility_off_outlined),
                           onPressed: () {
                             setState(() {
                               _verSenha = !_verSenha;
                             });
                           },
                         ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                      validator: (senha) {
-                        if (senha == null || senha.isEmpty) {
-                          return 'Digite sua senha';
-                        }
-                        return null;
-                      },
+                      validator: (senha) =>
+                          senha == null || senha.isEmpty ? 'Digite sua senha' : null,
                     ),
                   ),
                   // CHECKBOX
-                  Container(
-                    alignment: Alignment.centerRight,
-                    child: CheckboxListTile(
-                      title: const Text("Manter conectado", style: TextStyle(fontSize: 14)),
-                      value: _manterConectado,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _manterConectado = newValue ?? false;
-                        });
-                      },
-                      controlAffinity: ListTileControlAffinity.leading,
-                    ),
+                  CheckboxListTile(
+                    title: const Text("Manter conectado", style: TextStyle(fontSize: 14)),
+                    value: _manterConectado,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _manterConectado = newValue ?? false;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                  // BOTÃO ENTRAR
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.04,
-                      vertical: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          logar();
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.04),
-                        ),
-                      ),
-                      child: Text(
-                        'Entrar',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Fredoka',
-                          fontSize: MediaQuery.of(context).size.height * 0.026,
-                          fontWeight: FontWeight.w300,
-                        ),
+                  // BOTÃO LOGIN
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        logar();
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.orange,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    child: const Text('Entrar'),
                   ),
+                  const SizedBox(height: 10),
                   // BOTÃO CADASTRO
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: MediaQuery.of(context).size.width * 0.04,
-                      vertical: MediaQuery.of(context).size.height * 0.01,
-                    ),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (BuildContext context) => const CadastroPage()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(MediaQuery.of(context).size.width * 0.04),
-                        ),
-                      ),
-                      child: Text(
-                        'Cadastre-se',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'Fredoka',
-                          fontSize: MediaQuery.of(context).size.height * 0.026,
-                          fontWeight: FontWeight.w300,
-                        ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CadastroPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
+                    child: const Text('Cadastre-se'),
                   ),
                 ],
               ),
@@ -223,17 +171,16 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // FUNÇÃO DE LOGIN CORRIGIDA
+  // FUNÇÃO DE LOGIN
   logar() async {
     SharedPreferences _sharedPreferences = await SharedPreferences.getInstance();
+    final apiUrl = dotenv.env['API_URL'] ?? '';
 
     try {
-      var url = Uri.parse('deploy-recode.vercel.app/login');
+      var url = Uri.parse('$apiUrl/login');
       var response = await http.post(
         url,
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           'email': _emailCotroller.text,
           'password': _senhaCotroller.text,
@@ -245,8 +192,6 @@ class _LoginPageState extends State<LoginPage> {
 
       if (response.statusCode == 200) {
         var body = json.decode(response.body);
-
-        // Ajusta conforme a resposta real do back-end
         String token = body['token'] ?? '';
         bool data = body['data'] ?? false;
 
@@ -258,30 +203,24 @@ class _LoginPageState extends State<LoginPage> {
           if (data) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ADM_PAGE()),
+              MaterialPageRoute(builder: (_) => ADM_PAGE()),
             );
           } else {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => PainelUsuario()),
+              MaterialPageRoute(builder: (_) => PainelUsuario()),
             );
           }
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('E-mail ou senha inválidos'),
-            behavior: SnackBarBehavior.floating,
-          ),
+          const SnackBar(content: Text('E-mail ou senha inválidos')),
         );
       }
     } catch (e) {
       print("ERRO AO LOGAR: $e");
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Erro de conexão com o servidor'),
-          behavior: SnackBarBehavior.floating,
-        ),
+        const SnackBar(content: Text('Erro de conexão com o servidor')),
       );
     }
   }
@@ -290,16 +229,10 @@ class _LoginPageState extends State<LoginPage> {
     return showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) {
+      builder: (_) {
         return AlertDialog(
           title: const Text('Salvar email e senha?'),
-          content: const SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Deseja salvar o email e a senha ?'),
-              ],
-            ),
-          ),
+          content: const Text('Deseja salvar o email e a senha ?'),
           actions: <Widget>[
             TextButton(
               child: const Text('Sim'),
@@ -311,12 +244,12 @@ class _LoginPageState extends State<LoginPage> {
                 if (data) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => ADM_PAGE()),
+                    MaterialPageRoute(builder: (_) => ADM_PAGE()),
                   );
                 } else {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => PainelUsuario()),
+                    MaterialPageRoute(builder: (_) => PainelUsuario()),
                   );
                 }
               },
@@ -326,7 +259,7 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => PainelUsuario()),
+                  MaterialPageRoute(builder: (_) => PainelUsuario()),
                 );
               },
             ),

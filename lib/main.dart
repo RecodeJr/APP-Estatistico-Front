@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'bemvindo_page.dart';
-import 'package:path/path.dart' as path;
+import 'bemvindo_page.dart'; // ajuste o nome conforme o seu arquivo
 
 Future<void> main() async {
-  await dotenv.load(fileName: '.env');
+  WidgetsFlutterBinding.ensureInitialized(); // garante que Flutter foi inicializado
+  await dotenv.load(fileName: ".env");       // carrega variáveis de ambiente
   runApp(const MyApp());
 }
 
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
         primarySwatch: Colors.blue,
       ),
-      home: const BemVindoPage(),
+      home: const BemVindoPage(), // sua tela inicial
     );
   }
 }
